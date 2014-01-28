@@ -2,16 +2,16 @@ package org.futureworks.shopofthefuture.pointofsale.gui;
 
 import java.awt.Dimension;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import org.futureworks.shopofthefuture.pointofsale.logic.PointOfSale;
 
+@SuppressWarnings("serial")
 public class GUI extends JFrame{
 
 	private static final String TITLE = "Shop of the Future - Point of Sale representation";
-	private static final Dimension SIZE = new Dimension(1024, 768);
+	private static final Dimension SIZE = new Dimension(400, 400);
 	
 	private static final boolean RESIZABILITY = false;
 	private static final boolean VISIBILITY = true;

@@ -1,13 +1,12 @@
 package org.futureworks.shopofthefuture.pointofsale.server;
 
-import org.futureworks.shopofthefuture.pointofsale.gui.GUI;
+import java.io.IOException;
+import java.net.URI;
+
 import org.futureworks.shopofthefuture.pointofsale.logic.PointOfSale;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-
-import java.io.IOException;
-import java.net.URI;
 
 /**
  * Main class.
@@ -36,7 +35,8 @@ public class Server {
      * @param args
      * @throws IOException
      */
-    public static void main(String[] args) throws IOException {
+    @SuppressWarnings("unused")
+	public static void main(String[] args) throws IOException {
         final HttpServer server = startServer();
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
@@ -44,7 +44,7 @@ public class Server {
         final PointOfSale pointOfSale = new PointOfSale();
         
         System.in.read();
-        server.stop();
+        server.shutdown();
     }
 }
 

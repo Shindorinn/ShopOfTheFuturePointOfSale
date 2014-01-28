@@ -1,7 +1,7 @@
 package org.futureworks.shopofthefuture.pointofsale.gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,9 +15,12 @@ import org.futureworks.shopofthefuture.pointofsale.gui.controller.PINButtonListe
 import org.futureworks.shopofthefuture.pointofsale.gui.controller.SearchButtonListener;
 import org.futureworks.shopofthefuture.pointofsale.logic.PointOfSale;
 
+@SuppressWarnings("serial")
 public class PointOfSaleView extends JPanel {
 
 	private PointOfSale logic;
+	
+	private BorderLayout layout;
 	
 	private JPanel leftContainer;
 	private JPanel rightContainer;
@@ -36,8 +39,11 @@ public class PointOfSaleView extends JPanel {
 	
 	public PointOfSaleView(PointOfSale logic){
 		// TODO : Layout management
-		super.add(this.createLeftContainer());
-		super.add(this.createRightContainer());
+		this.layout = new BorderLayout();
+		super.setLayout(layout);
+		
+		super.add(this.createLeftContainer(), BorderLayout.WEST);
+		super.add(this.createRightContainer(), BorderLayout.EAST);
 		
 		this.createActionListeners(logic);
 	}
@@ -53,7 +59,7 @@ public class PointOfSaleView extends JPanel {
 		}else{
 			this.shoppingListView = new JList<String>(data);
 		}
-		this.leftContainer.add(this.shoppingListView);
+		this.leftContainer.add(this.shoppingListView, BorderLayout.SOUTH);
 	}
 	
 	private JPanel createLeftContainer(){
@@ -63,10 +69,15 @@ public class PointOfSaleView extends JPanel {
 
 		this.searchField = new JTextField();
 		this.searchButton = new JButton("Search");
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BorderLayout());
+		buttonPanel.add(this.searchFieldLabel, BorderLayout.NORTH);
+		buttonPanel.add(this.searchButton, BorderLayout.CENTER);
+		buttonPanel.add(this.searchField, BorderLayout.SOUTH);
 		
-		this.leftContainer.add(this.searchFieldLabel);
-		this.leftContainer.add(this.searchField);
-		this.leftContainer.add(this.searchButton);
+		
+		this.leftContainer.setLayout(new BorderLayout());
+		this.leftContainer.add(buttonPanel, BorderLayout.NORTH);
 
 		this.createJList(null);
 		
@@ -76,17 +87,22 @@ public class PointOfSaleView extends JPanel {
 	private JPanel createRightContainer(){
 		this.rightContainer = new JPanel();
 		
+		this.rightContainer.setLayout(new BorderLayout());
+		JPanel buttonPanel = new JPanel(new GridLayout(5, 1));
+		
 		this.nfcButton = new JButton("NFC");
 		this.pinButton = new JButton("PIN");
 		this.cashButton = new JButton("Cash");
 		
 		this.randomCheckButton = new JButton("Random Item Check");
 		
-		this.rightContainer.add(this.nfcButton);
-		this.rightContainer.add(this.pinButton);
-		this.rightContainer.add(this.cashButton);
+		buttonPanel.add(this.nfcButton);
+		buttonPanel.add(this.pinButton);
+		buttonPanel.add(this.cashButton);
 		
-		this.rightContainer.add(this.randomCheckButton);
+		buttonPanel.add(this.randomCheckButton);
+		
+		this.rightContainer.add(buttonPanel, BorderLayout.NORTH);
 		
 		return this.rightContainer;
 	}
