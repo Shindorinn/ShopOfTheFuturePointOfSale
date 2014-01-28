@@ -3,8 +3,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
-    <artifactId>simple-service</artifactId>
+    <groupId>org.futureworks.shopofthefuture.pointofsale</groupId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>simple-service</name>
@@ -74,4 +73,5 @@
         <jersey.version>2.5.1</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <artifactId>shopofthefuture-pointofsale</artifactId>
 </project>
