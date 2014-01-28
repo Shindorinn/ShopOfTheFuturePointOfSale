@@ -2,7 +2,11 @@ package org.futureworks.shopofthefuture.pointofsale.gui;
 
 import java.awt.Dimension;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import org.futureworks.shopofthefuture.pointofsale.logic.PointOfSale;
 
 public class GUI extends JFrame{
 
@@ -14,9 +18,9 @@ public class GUI extends JFrame{
 	
 	private PointOfSaleView pointOfSaleView;
 	
-	public GUI(){
+	public GUI(PointOfSale logic){
 		
-		this.pointOfSaleView = new PointOfSaleView();
+		this.pointOfSaleView = new PointOfSaleView(logic);
 		
 		super.add(this.pointOfSaleView);
 		
@@ -29,5 +33,11 @@ public class GUI extends JFrame{
 		super.setVisible(GUI.VISIBILITY);
 	}
 	
+	public void updateGUI(){
+		this.pointOfSaleView.update();
+	}
 	
+	public void createDialog(String message, String title, int messageType){
+		JOptionPane.showInternalMessageDialog(this.getContentPane(), message, title, messageType);
+	}
 }

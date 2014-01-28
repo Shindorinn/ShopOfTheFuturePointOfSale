@@ -1,6 +1,7 @@
 package org.futureworks.shopofthefuture.pointofsale.server;
 
 import org.futureworks.shopofthefuture.pointofsale.gui.GUI;
+import org.futureworks.shopofthefuture.pointofsale.logic.PointOfSale;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -40,7 +41,7 @@ public class Server {
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
         
-        final GUI gui = new GUI();
+        final PointOfSale pointOfSale = new PointOfSale();
         
         System.in.read();
         server.stop();

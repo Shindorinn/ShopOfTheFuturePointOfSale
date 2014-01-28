@@ -1,15 +1,24 @@
 package org.futureworks.shopofthefuture.pointofsale.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.futureworks.shopofthefuture.pointofsale.domain.ShoppingListItem;
+import org.futureworks.shopofthefuture.pointofsale.gui.controller.CashButtonListener;
+import org.futureworks.shopofthefuture.pointofsale.gui.controller.NFCButtonListener;
+import org.futureworks.shopofthefuture.pointofsale.gui.controller.PINButtonListener;
+import org.futureworks.shopofthefuture.pointofsale.gui.controller.SearchButtonListener;
+import org.futureworks.shopofthefuture.pointofsale.logic.PointOfSale;
 
 public class PointOfSaleView extends JPanel {
 
+	private PointOfSale logic;
+	
 	private JPanel leftContainer;
 	private JPanel rightContainer;
 	
@@ -17,7 +26,7 @@ public class PointOfSaleView extends JPanel {
 	private JTextField searchField;
 	private JButton searchButton;
 	
-	private JList<ShoppingListItem> shoppingListView;
+	private JList<String> shoppingListView;
 	
 	private JButton nfcButton;
 	private JButton pinButton;
@@ -25,9 +34,26 @@ public class PointOfSaleView extends JPanel {
 	
 	private JButton randomCheckButton;
 	
-	public PointOfSaleView(){
+	public PointOfSaleView(PointOfSale logic){
+		// TODO : Layout management
 		super.add(this.createLeftContainer());
 		super.add(this.createRightContainer());
+		
+		this.createActionListeners(logic);
+	}
+	
+	public void update(){
+		this.createJList(this.logic.getShoppingList());
+		this.repaint();
+	}
+	
+	private void createJList(String[] data){
+		if(data == null){
+			this.shoppingListView = new JList<String>();
+		}else{
+			this.shoppingListView = new JList<String>(data);
+		}
+		this.leftContainer.add(this.shoppingListView);
 	}
 	
 	private JPanel createLeftContainer(){
@@ -38,12 +64,11 @@ public class PointOfSaleView extends JPanel {
 		this.searchField = new JTextField();
 		this.searchButton = new JButton("Search");
 		
-		this.shoppingListView = new JList<ShoppingListItem>();
-		
 		this.leftContainer.add(this.searchFieldLabel);
 		this.leftContainer.add(this.searchField);
 		this.leftContainer.add(this.searchButton);
-		this.leftContainer.add(this.shoppingListView);
+
+		this.createJList(null);
 		
 		return this.leftContainer;
 	}
@@ -64,5 +89,16 @@ public class PointOfSaleView extends JPanel {
 		this.rightContainer.add(this.randomCheckButton);
 		
 		return this.rightContainer;
+	}
+	
+	private void createActionListeners(PointOfSale logic){
+		
+		this.searchButton.addActionListener(new SearchButtonListener(logic, this.searchField));
+		
+		this.nfcButton.addActionListener(new NFCButtonListener(logic));
+		
+		this.pinButton.addActionListener(new PINButtonListener(logic));
+		
+		this.cashButton.addActionListener(new CashButtonListener(logic));
 	}
 }
