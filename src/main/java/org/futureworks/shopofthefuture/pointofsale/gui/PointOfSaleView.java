@@ -1,6 +1,7 @@
 package org.futureworks.shopofthefuture.pointofsale.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -30,6 +31,8 @@ public class PointOfSaleView extends JPanel {
 	private JButton searchButton;
 	
 	private JList<String> shoppingListView;
+	private JList<String> randomItemCheckView;
+	private Dimension standardJListSize;
 	
 	private JButton nfcButton;
 	private JButton pinButton;
@@ -38,7 +41,7 @@ public class PointOfSaleView extends JPanel {
 	private JButton randomCheckButton;
 	
 	public PointOfSaleView(PointOfSale logic){
-		// TODO : Layout management
+		this.standardJListSize = new Dimension(50, 200);
 		this.layout = new BorderLayout();
 		super.setLayout(layout);
 		
@@ -49,16 +52,32 @@ public class PointOfSaleView extends JPanel {
 	}
 	
 	public void update(){
-		this.createJList(this.logic.getShoppingList());
+		this.createShoppingListView(this.logic.getShoppingList());
+		this.createRandomItemCheckView(null);
 		this.repaint();
 	}
 	
-	private void createJList(String[] data){
+	public void updateRandomItemCheckView(){
+		this.createRandomItemCheckView(logic.getRandomItems());
+	}
+	
+	private void createRandomItemCheckView(String[] data){
+		if(data == null){
+			this.randomItemCheckView = new JList<String>();
+		}else{
+			this.randomItemCheckView = new JList<String>(data);
+		}
+		this.randomItemCheckView.setPreferredSize(this.standardJListSize);
+		this.rightContainer.add(this.randomItemCheckView, BorderLayout.SOUTH);
+	}
+	
+	private void createShoppingListView(String[] data){
 		if(data == null){
 			this.shoppingListView = new JList<String>();
 		}else{
 			this.shoppingListView = new JList<String>(data);
 		}
+		this.shoppingListView.setPreferredSize(this.standardJListSize);
 		this.leftContainer.add(this.shoppingListView, BorderLayout.SOUTH);
 	}
 	
@@ -79,7 +98,7 @@ public class PointOfSaleView extends JPanel {
 		this.leftContainer.setLayout(new BorderLayout());
 		this.leftContainer.add(buttonPanel, BorderLayout.NORTH);
 
-		this.createJList(null);
+		this.createShoppingListView(null);
 		
 		return this.leftContainer;
 	}
@@ -103,6 +122,7 @@ public class PointOfSaleView extends JPanel {
 		buttonPanel.add(this.randomCheckButton);
 		
 		this.rightContainer.add(buttonPanel, BorderLayout.NORTH);
+		this.createRandomItemCheckView(null);
 		
 		return this.rightContainer;
 	}

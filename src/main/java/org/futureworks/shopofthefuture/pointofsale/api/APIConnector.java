@@ -4,7 +4,7 @@ import org.futureworks.shopofthefuture.pointofsale.domain.ShoppingList;
 
 public class APIConnector {
 
-	private static final String API_URL = "";
+	private static final String API_URL = "http://localhost:80/"; //TODO : Double-check
 	
 	private static APIConnector instance;
 	

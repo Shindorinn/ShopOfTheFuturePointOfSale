@@ -1,7 +1,9 @@
 package org.futureworks.shopofthefuture.pointofsale.logic;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.swing.JOptionPane;
 
@@ -16,12 +18,25 @@ public class PointOfSale {
 	private GUI gui;
 	
 	private ShoppingList currentShoppingList;
+	private String[] currentShoppingItems;
+	private double currentPrice;
 	
-	public PointOfSale(){
+	private Random random;
+	
+	private static PointOfSale instance;
+	
+	private PointOfSale(){
 		this.apiConnector = APIConnector.getInstance();
 		this.gui = new GUI(this);
 		
 		this.clearCurrentShoppingList();
+	}
+	
+	public static PointOfSale getInstance(){
+		if(PointOfSale.instance == null){
+			PointOfSale.instance = new PointOfSale();
+		}
+		return PointOfSale.instance;
 	}
 	
 	public void clearCurrentShoppingList(){
@@ -49,18 +64,22 @@ public class PointOfSale {
 	}
 	
 	public String[] getShoppingList(){
-		String[] shoppingItems = new String[this.currentShoppingList.getAmountOfShoppingItems()];
+		this.currentPrice = 0;
+		
+		this.currentShoppingItems = new String[this.currentShoppingList.getAmountOfShoppingItems()];
 		HashMap<ShoppingListItem, Integer> shoppingList = this.currentShoppingList.getItems();
 		Collection<ShoppingListItem> keys = shoppingList.keySet();
 		int index = 0;
 		for(ShoppingListItem item : keys){
-			shoppingItems[index] = new String(	item.getBarcode() + " " +
+			this.currentShoppingItems[index] = new String(	item.getBarcode() + " " +
 												item.getName() + " " + 
 												item.getPrice() + " " +
 												shoppingList.get(item));
+			
+			this.currentPrice += (item.getPrice() * shoppingList.get(item));
 			index++;
 		}
-		return shoppingItems;
+		return this.currentShoppingItems;
 	}
 
 	public void nfcMessage() {
@@ -68,11 +87,24 @@ public class PointOfSale {
 	}
 
 	public void pinMessage() {
-		this.gui.createDialog("PIN Payment", "PIN Payment", JOptionPane.INFORMATION_MESSAGE);
+		this.gui.createDialog("PIN Payment : " + this.currentPrice, "PIN Payment", JOptionPane.INFORMATION_MESSAGE);
 	}
-	
 
 	public void cashMessage() {
-		this.gui.createDialog("Cash Payment", "Cash Payment", JOptionPane.INFORMATION_MESSAGE);
+		this.gui.createDialog("Cash Payment : " + this.currentPrice, "Cash Payment", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void randomItemCheckMessage(){
+		this.gui.createDialog("Please check the items : \n" + getRandomItems(), "Random Item Check", JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public String[] getRandomItems(){
+		ArrayList<String> buffer = new ArrayList<String>();
+		int amount = 0;
+		
+		while(amount < 3 && amount < this.currentShoppingItems.length){
+			buffer.add(this.currentShoppingItems[random.nextInt(this.currentShoppingItems.length -1)]);
+		}
+		return (String[]) buffer.toArray();
 	}
 }

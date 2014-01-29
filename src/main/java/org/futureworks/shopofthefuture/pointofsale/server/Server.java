@@ -14,7 +14,7 @@ import org.glassfish.jersey.server.ResourceConfig;
  */
 public class Server {
     // Base URI the Grizzly HTTP server will listen on
-    public static final String BASE_URI = "http://localhost:8080/shopofthefuture/pointofsale";
+    public static final String BASE_URI = "http://localhost:8080/";
 
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
@@ -41,7 +41,7 @@ public class Server {
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
         
-        final PointOfSale pointOfSale = new PointOfSale();
+        final PointOfSale pointOfSale = PointOfSale.getInstance();
         
         System.in.read();
         server.shutdown();
