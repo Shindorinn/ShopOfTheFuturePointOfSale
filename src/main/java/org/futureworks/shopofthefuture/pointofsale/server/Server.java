@@ -3,6 +3,7 @@ package org.futureworks.shopofthefuture.pointofsale.server;
 import java.io.IOException;
 import java.net.URI;
 
+import org.futureworks.shopofthefuture.pointofsale.api.APIConnector;
 import org.futureworks.shopofthefuture.pointofsale.logic.PointOfSale;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -42,6 +43,9 @@ public class Server {
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
         
         final PointOfSale pointOfSale = PointOfSale.getInstance();
+        
+        APIConnector api = APIConnector.getInstance();
+        api.getShoppingCart("1");
         
         System.in.read();
         server.shutdown();

@@ -41,6 +41,7 @@ public class PointOfSaleView extends JPanel {
 	private JButton randomCheckButton;
 	
 	public PointOfSaleView(PointOfSale logic){
+		this.logic = logic;
 		this.standardJListSize = new Dimension(50, 200);
 		this.layout = new BorderLayout();
 		super.setLayout(layout);
@@ -71,7 +72,7 @@ public class PointOfSaleView extends JPanel {
 		this.rightContainer.add(this.randomItemCheckView, BorderLayout.SOUTH);
 	}
 	
-	private void createShoppingListView(String[] data){
+	public void createShoppingListView(String[] data){
 		if(data == null){
 			this.shoppingListView = new JList<String>();
 		}else{
@@ -129,7 +130,7 @@ public class PointOfSaleView extends JPanel {
 	
 	private void createActionListeners(PointOfSale logic){
 		
-		this.searchButton.addActionListener(new SearchButtonListener(logic, this.searchField));
+		this.searchButton.addActionListener(new SearchButtonListener(logic, this.searchField, this));
 		
 		this.nfcButton.addActionListener(new NFCButtonListener(logic));
 		

@@ -38,6 +38,8 @@ public class MobileAppConnection {
 		//Map<String, Integer> barcodes = parser.parseMobileShoppingCart();
 		//while
 		System.out.println(shoppingCart);
+		System.out.println("MobileAppConnection : shoppingList()");
+		logic.setNewShoppingList(parser.parseShoppingCart(shoppingCart));
 		return shoppingCart;
 	}
 	

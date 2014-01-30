@@ -6,11 +6,14 @@ public class ShoppingListItem{
 	
 	private String name;
 	private double price;
+	private int amount;
+	private int category;
 	
-	public ShoppingListItem(String barcode, String name, double price) {
+	public ShoppingListItem(String barcode, String name, double price, int amount, int category) {
 		this.barcode = barcode;
 		this.name = name;
 		this.price = price;
+		this.amount = amount;
 	}
 	
 	/**
@@ -55,6 +58,14 @@ public class ShoppingListItem{
 	 */
 	public Double getPrice() {
 		return price;
+	}
+	
+	public int getAmount(){
+		return this.amount;
+	}
+	
+	public void setAmount(){
+		
 	}
 
 }

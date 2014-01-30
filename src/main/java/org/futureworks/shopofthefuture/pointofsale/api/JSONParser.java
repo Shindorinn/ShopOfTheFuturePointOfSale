@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.futureworks.shopofthefuture.pointofsale.domain.ShoppingList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +25,11 @@ public class JSONParser {
 		return instance;
 	}
 
+	public ShoppingList parseShoppingCart(String shoppingCartJSON){
+		// TODO
+		return null;
+	}
+	
 	public JSONObject getObjectFromJSON(JSONObject jsonObject, String keyword) throws JSONException {
 		return jsonObject.getJSONObject(keyword);
 	}

@@ -1,5 +1,6 @@
 package org.futureworks.shopofthefuture.pointofsale.logic;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,6 +31,13 @@ public class PointOfSale {
 		this.gui = new GUI(this);
 		
 		this.clearCurrentShoppingList();
+		try {
+			this.currentShoppingList = apiConnector.getShoppingCart("1");
+			this.updateView();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static PointOfSale getInstance(){
@@ -45,7 +53,12 @@ public class PointOfSale {
 	
 	public boolean retrieveShoppingList(String id){
 		this.clearCurrentShoppingList();
-		this.currentShoppingList = this.apiConnector.getShoppingList(id);
+		try {
+			this.currentShoppingList = this.apiConnector.getShoppingCart(id);
+		} catch (IOException e) {
+			System.err.println("PointOfSale -> retrieveShoppingList");
+			e.printStackTrace();
+		}
 		
 		if(this.currentShoppingList != null){
 			return true;
@@ -67,17 +80,19 @@ public class PointOfSale {
 		this.currentPrice = 0;
 		
 		this.currentShoppingItems = new String[this.currentShoppingList.getAmountOfShoppingItems()];
-		HashMap<ShoppingListItem, Integer> shoppingList = this.currentShoppingList.getItems();
-		Collection<ShoppingListItem> keys = shoppingList.keySet();
-		int index = 0;
-		for(ShoppingListItem item : keys){
+		ArrayList<ShoppingListItem> shoppingList = this.currentShoppingList.getItems();
+		
+		for(int index = 0; index < shoppingList.size();index++){
+			ShoppingListItem item = shoppingList.get(index);
 			this.currentShoppingItems[index] = new String(	item.getBarcode() + " " +
 												item.getName() + " " + 
 												item.getPrice() + " " +
-												shoppingList.get(item));
+												item.getAmount());
 			
-			this.currentPrice += (item.getPrice() * shoppingList.get(item));
-			index++;
+			this.currentPrice += (item.getPrice() * item.getAmount());
+			
+			System.out.println("getShoppingList() index : " + index + " -> " + this.currentShoppingItems[index]);
+			
 		}
 		return this.currentShoppingItems;
 	}
