@@ -14,7 +14,7 @@ import org.json.JSONObject;
 
 public class APIConnector {
 
-	private static final String API_URL = "http://145.37.88.6:80/phpAPI/"; //TODO : Double-check
+	private static final String API_URL = "http://127.0.0.1:80/phpAPI/"; 
 	
 	private static APIConnector instance;
 	
